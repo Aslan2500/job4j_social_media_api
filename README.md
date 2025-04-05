@@ -82,5 +82,7 @@
 
 - Масштабируемость кода и соблюдение важных принципов разработки;
 
-
 - Читаемость кода.
+
+
+![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
