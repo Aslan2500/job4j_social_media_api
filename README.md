@@ -84,6 +84,4 @@
 
 - Читаемость кода.
 
-
-![example workflow]
-(https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![Build Status](https://github.com/Aslan2500/job4j_social_media_api/actions/workflows/maven-publish.yml/badge.svg)
