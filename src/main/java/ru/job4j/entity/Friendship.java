@@ -8,6 +8,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Column;
 
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "friendship")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,7 +26,7 @@ import java.util.UUID;
 public class Friendship {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @OneToOne

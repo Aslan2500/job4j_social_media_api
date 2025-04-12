@@ -1,7 +1,7 @@
 create table if not exists post
 (
     id          UUID primary key,
-    user_id     UUID primary key not null,
+    user_id     UUID not null,
     title       varchar(255) not null,
     content     text not null ,
     image_url   varchar(255),
