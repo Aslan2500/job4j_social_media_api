@@ -1,4 +1,4 @@
-package ru.job4j.entity;
+package ru.job4j.entity.enums;
 
 public enum Status {
 

@@ -4,16 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Column;
-
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.job4j.entity.enums.Status;
-import java.time.OffsetDateTime;
+
 import java.util.UUID;
 
 @Entity
@@ -21,25 +18,19 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Friendship {
+public class Subscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "requester_id",
+    @JoinColumn(name = "follower_id",
             nullable = false)
-    private User requester;
+    private User followerId;
 
     @OneToOne
-    @JoinColumn(name = "addressee_id",
+    @JoinColumn(name = "following_id",
             nullable = false)
-    private User addressee;
-
-    @Column(name = "status")
-    private Status status;
-
-    @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    private User followingId;
 }
