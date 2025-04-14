@@ -1,13 +1,13 @@
-spring:
-  application:
-    name: job4j_social_media_api
-  datasource:
-    url: jdbc:postgresql://localhost:5432/social_media
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: create-drop
-  liquibase:
-    change-log: classpath:db/dbchangelog.xml
+#spring:
+#  application:
+#    name: job4j_social_media_api
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/social_media
+#    username: postgres
+#    password: password
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    hibernate:
+#      ddl-auto: create-drop
+#  liquibase:
+#    change-log: classpath:db/dbchangelog.xml
