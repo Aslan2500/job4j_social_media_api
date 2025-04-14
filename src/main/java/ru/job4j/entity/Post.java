@@ -44,7 +44,7 @@ public class Post {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "crated_at",
+    @Column(name = "created_at",
             nullable = false)
     private OffsetDateTime createdAt;
 }
