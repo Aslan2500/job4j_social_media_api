@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = Job4jSocialMediaApiApplication.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SubscriptionRepositoryTest {
+class SubscriptionRepositoryTest {
 
     @Autowired
     private SubscriptionRepository subscriptionRepository;

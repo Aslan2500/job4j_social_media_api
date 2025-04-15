@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.job4j.Job4jSocialMediaApiApplication;
 import ru.job4j.entity.Post;
 import ru.job4j.entity.User;
@@ -13,12 +15,13 @@ import ru.job4j.repository.UserRepository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = Job4jSocialMediaApiApplication.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PostRepositoryTest {
+class PostRepositoryTest {
 
     @Autowired
     private PostRepository postRepository;
@@ -33,12 +36,7 @@ public class PostRepositoryTest {
 
     @Test
     void whenSaveUserThenFindById() {
-        var user = new User();
-        user.setUsername("UserNameFirst");
-        user.setEmail("UserEmail");
-        user.setPassword("UserPassword");
-        user.setCreatedAt(OffsetDateTime.now());
-        userRepository.save(user);
+        var user = createUser();
 
         var post = new Post();
         post.setTitle("PostTitle");
@@ -54,31 +52,67 @@ public class PostRepositoryTest {
 
     @Test
     void whenFindAllTheReturnAllPosts() {
+        var user = createUser();
+        createPost(user, "postTitleFirst", OffsetDateTime.now());
+        createPost(user, "postTitleSecond", OffsetDateTime.now());
+
+        List<Post> allPosts = postRepository.findAll();
+        assertThat(allPosts).hasSize(2);
+        assertThat(allPosts).extracting(Post::getTitle).contains("postTitleFirst", "postTitleSecond");
+    }
+
+    @Test
+    void whenFindAllByUserTheReturnAllPosts() {
+        var user = createUser();
+        createPost(user, "postTitleFirst", OffsetDateTime.now());
+        createPost(user, "postTitleSecond", OffsetDateTime.now());
+
+        List<Post> allPosts = postRepository.findAllByUser(user);
+        assertThat(allPosts).hasSize(2);
+        assertThat(allPosts).extracting(Post::getTitle).contains("postTitleFirst", "postTitleSecond");
+    }
+
+    @Test
+    void whenFindAllByCreatedBetweenTheReturnTwoPosts() {
+        var user = createUser();
+        createPost(user, "postTitleFirst", OffsetDateTime.now().plusDays(1));
+        createPost(user, "postTitleSecond", OffsetDateTime.now().plusDays(10));
+
+        List<Post> allPosts = postRepository.findAllByCreatedAtBetween(OffsetDateTime.now(), OffsetDateTime.now().plusDays(3));
+        assertThat(allPosts).hasSize(1);
+        assertThat(allPosts).extracting(Post::getTitle).contains("postTitleFirst");
+    }
+
+    @Test
+    void whenFindAllOrderCreatedAtAscThenReturnAllPosts() {
+        var user = createUser();
+        createPost(user, "postTitleFirst", OffsetDateTime.now().plusDays(10));
+        createPost(user, "postTitleSecond", OffsetDateTime.now().plusDays(2));
+        createPost(user, "postTitleThird", OffsetDateTime.now().plusDays(4));
+        Page<Post> allByOrderByCreatedAtDesc = postRepository.findAllByOrderByCreatedAtAsc(Pageable.ofSize(1));
+        assertThat(allByOrderByCreatedAtDesc.getTotalPages()).isEqualTo(3);
+        Optional<Post> first = allByOrderByCreatedAtDesc.get().findFirst();
+        assertThat(first).isPresent();
+        assertThat(first.get().getTitle()).isEqualTo("postTitleSecond");
+    }
+
+    private User createUser() {
         var user = new User();
         user.setUsername("UserNameFirst");
         user.setEmail("UserEmail");
         user.setPassword("UserPassword");
         user.setCreatedAt(OffsetDateTime.now());
-        userRepository.save(user);
+        return userRepository.save(user);
+    }
 
+    private void createPost(User user, String title, OffsetDateTime createdAt) {
         var firstPost = new Post();
-        firstPost.setTitle("postTitleFirst");
+        firstPost.setTitle(title);
         firstPost.setContent("content");
         firstPost.setImageUrl("image");
-        firstPost.setCreatedAt(OffsetDateTime.now());
+        firstPost.setCreatedAt(OffsetDateTime.now().plusDays(1));
+        firstPost.setCreatedAt(createdAt);
         firstPost.setUser(user);
         postRepository.save(firstPost);
-
-        var secondPost = new Post();
-        secondPost.setTitle("postTitleFirst");
-        secondPost.setContent("content");
-        secondPost.setImageUrl("image");
-        secondPost.setCreatedAt(OffsetDateTime.now());
-        secondPost.setUser(user);
-        postRepository.save(secondPost);
-
-        List<Post> allPosts = postRepository.findAll();
-        assertThat(allPosts).hasSize(2);
-        assertThat(allPosts).extracting(Post::getTitle).contains("postTitleFirst", "postTitleFirst");
     }
 }
