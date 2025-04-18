@@ -1,11 +1,11 @@
 package ru.job4j.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -27,13 +27,15 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "follower_id",
-            nullable = false)
-    private User followerId;
+    @ManyToOne
+    @JoinColumn(name = "follower",
+                nullable = false,
+                columnDefinition = "Пользователь, на которого подписались")
+    private User follower;
 
-    @OneToOne
-    @JoinColumn(name = "following_id",
-            nullable = false)
-    private User followingId;
+    @ManyToOne
+    @JoinColumn(name = "following",
+                nullable = false,
+                columnDefinition = "Подписанные пользователи")
+    private User following;
 }

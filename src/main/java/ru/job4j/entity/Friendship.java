@@ -1,10 +1,12 @@
 package ru.job4j.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Column;
 
@@ -29,16 +31,17 @@ public class Friendship {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "requester_id",
+    @ManyToOne
+    @JoinColumn(name = "requester",
             nullable = false)
     private User requester;
 
-    @OneToOne
-    @JoinColumn(name = "addressee_id",
+    @ManyToOne
+    @JoinColumn(name = "addressee",
             nullable = false)
     private User addressee;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 
