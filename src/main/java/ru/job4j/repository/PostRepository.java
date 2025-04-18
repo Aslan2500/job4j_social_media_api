@@ -10,9 +10,8 @@ import ru.job4j.entity.User;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 
-public interface PostRepository extends JpaRepository<Post, UUID> {
+public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByUser(User user);
 
