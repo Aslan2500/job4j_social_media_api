@@ -25,14 +25,14 @@ public class Subscription {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "follower",
+    @JoinColumn(name = "target",
                 nullable = false,
                 columnDefinition = "Пользователь, на которого подписались")
-    private User follower;
+    private User target;
 
     @ManyToOne
-    @JoinColumn(name = "following",
+    @JoinColumn(name = "subscriber",
                 nullable = false,
                 columnDefinition = "Подписанные пользователи")
-    private User following;
+    private User subscriber;
 }

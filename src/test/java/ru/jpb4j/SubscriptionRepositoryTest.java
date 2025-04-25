@@ -48,13 +48,13 @@ class SubscriptionRepositoryTest {
         userRepository.save(following);
 
         var sub = new Subscription();
-        sub.setFollower(follower);
-        sub.setFollowing(following);
+        sub.setTarget(follower);
+        sub.setSubscriber(following);
         subscriptionRepository.save(sub);
 
         var subFound = subscriptionRepository.findById(sub.getId());
         assertThat(subFound).isPresent();
-        assertThat(subFound.get().getFollower().getId()).isEqualTo(follower.getId());
+        assertThat(subFound.get().getTarget().getId()).isEqualTo(follower.getId());
     }
 
     @Test
@@ -74,13 +74,13 @@ class SubscriptionRepositoryTest {
         userRepository.save(following);
 
         var subFirst = new Subscription();
-        subFirst.setFollower(follower);
-        subFirst.setFollowing(following);
+        subFirst.setTarget(follower);
+        subFirst.setSubscriber(following);
         subscriptionRepository.save(subFirst);
 
         var subSecond = new Subscription();
-        subSecond.setFollower(follower);
-        subSecond.setFollowing(following);
+        subSecond.setTarget(follower);
+        subSecond.setSubscriber(following);
         subscriptionRepository.save(subSecond);
 
         var allSubs = subscriptionRepository.findAll();
