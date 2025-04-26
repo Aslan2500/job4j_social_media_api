@@ -49,7 +49,6 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendship.setStatus(Status.ACCEPTED);
         friendshipRepository.save(friendship);
 
-        // Создаём обратную подписку
         subscriptionService.subscribe(currentUser, toAccept);
     }
 
