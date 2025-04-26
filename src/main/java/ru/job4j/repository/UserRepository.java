@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailAndPassword(String email, String password);
 
     @Query(value = """
-            SELECT s.follower FROM Subscription s WHERE s.following = ?1
+            SELECT s.subscriber FROM Subscription s WHERE s.target = ?1
             """)
     List<User> findAllFollowersOfUser(User user);
 

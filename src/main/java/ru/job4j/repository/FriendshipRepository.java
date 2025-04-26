@@ -10,8 +10,19 @@ import java.util.Optional;
 
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
+    @Query("""
+    SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END
+    FROM Friendship f
+    WHERE (f.requester = :user1 AND f.addressee = :user2)
+       OR (f.requester = :user2 AND f.addressee = :user1)
+    """)
     boolean existsBetween(User one, User two);
 
+    @Query("""
+    SELECT f FROM Friendship f
+    WHERE (f.requester = :user1 AND f.addressee = :user2)
+       OR (f.requester = :user2 AND f.addressee = :user1)
+    """)
     Optional<Friendship> findByUsers(User one, User two);
 
     @Modifying

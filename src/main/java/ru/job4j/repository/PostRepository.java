@@ -44,7 +44,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = """
            SELECT p FROM Post as p
            WHERE p.user IN (
-                    SELECT s.following FROM Subscription s WHERE s.follower = ?1
+                    SELECT s.target FROM Subscription s WHERE s.subscriber = ?1
                     )
            ORDER BY p.createdAt DESC
            """)
