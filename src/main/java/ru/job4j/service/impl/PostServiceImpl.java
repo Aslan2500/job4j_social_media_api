@@ -10,6 +10,7 @@ import ru.job4j.service.PostService;
 import ru.job4j.repository.PostRepository;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -18,6 +19,21 @@ import java.time.OffsetDateTime;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+
+    @Override
+    public Post savePost(Post post) {
+        return postRepository.save(post);
+    }
+
+    @Override
+    public void deletePostById(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Post> getPostById(Long id) {
+        return postRepository.findById(id);
+    }
 
     @Override
     public void createNewPost(User author, String title, String content, String imageUrl) {
