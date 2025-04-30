@@ -26,13 +26,11 @@ public class Subscription {
 
     @ManyToOne
     @JoinColumn(name = "target",
-                nullable = false,
-                columnDefinition = "Пользователь, на которого подписались")
+                nullable = false)
     private User target;
 
     @ManyToOne
     @JoinColumn(name = "subscriber",
-                nullable = false,
-                columnDefinition = "Подписанные пользователи")
+                nullable = false)
     private User subscriber;
 }

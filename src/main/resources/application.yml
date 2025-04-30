@@ -10,4 +10,4 @@
 #    hibernate:
 #      ddl-auto: create-drop
 #  liquibase:
-#    change-log: classpath:db/dbchangelog.xml
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
