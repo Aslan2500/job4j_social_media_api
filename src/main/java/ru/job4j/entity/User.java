@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.OffsetDateTime;
 
@@ -29,6 +30,9 @@ public class User {
 
     @Column(name = "email",
             nullable = false)
+    @Length(min = 4,
+            max = 20,
+            message = "email должно быть не менее 6 и не более 10 символов")
     private String email;
 
     @Column(name = "password",
