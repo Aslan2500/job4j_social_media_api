@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.job4j.entity.Post;
 import ru.job4j.service.PostService;
 
@@ -24,7 +25,15 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> savePost(@RequestBody Post post) {
-        return ResponseEntity.ok(postService.savePost(post));
+        postService.savePost(post);
+        var uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(post.getId())
+                .toUri();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .location(uri)
+                .body(post);
     }
 
     @GetMapping("/{id}")
@@ -36,13 +45,19 @@ public class PostController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Post> updatePost(@RequestBody Post post) {
-        return ResponseEntity.ok(postService.savePost(post));
+    public ResponseEntity<Void> updatePost(@RequestBody Post post) {
+        if (postService.updatePost(post)) {
+            ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePostById(@PathVariable(name = "id") Long id) {
-        postService.deletePostById(id);
+    public ResponseEntity<Void> deletePostById(@PathVariable(name = "id") Long id) {
+        if (postService.deletePostById(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

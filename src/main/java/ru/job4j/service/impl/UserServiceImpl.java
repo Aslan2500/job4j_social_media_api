@@ -21,12 +21,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updateUser(User user) {
+        var optionalUser = userRepository.findById(user.getId());
+        if (optionalUser.isEmpty()) {
+            return false;
+        }
+        User userToUpdate = optionalUser.get();
+        userToUpdate.setUsername(user.getUsername());
+        userToUpdate.setEmail(user.getEmail());
+        userRepository.save(userToUpdate);
+        return true;
+    }
+
+    @Override
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public boolean deleteUserById(Long id) {
+        var optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return false;
+        }
         userRepository.deleteById(id);
+        return true;
     }
 }

@@ -26,8 +26,26 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePostById(Long id) {
+    public boolean updatePost(Post post) {
+        var optionalPost = postRepository.findById(post.getId());
+        if (optionalPost.isEmpty()) {
+            return false;
+        }
+        Post postToUpdate = optionalPost.get();
+        postToUpdate.setContent(post.getContent());
+        postToUpdate.setTitle(post.getTitle());
+        postToUpdate.setImageUrl(post.getImageUrl());
+        return true;
+    }
+
+    @Override
+    public boolean deletePostById(Long id) {
+        var optionalPost = postRepository.findById(id);
+        if (optionalPost.isEmpty()) {
+            return false;
+        }
         postRepository.deleteById(id);
+        return true;
     }
 
     @Override

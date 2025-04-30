@@ -9,7 +9,9 @@ public interface PostService {
 
     Post savePost(Post post);
 
-    void deletePostById(Long id);
+    boolean updatePost(Post post);
+
+    boolean deletePostById(Long id);
 
     Optional<Post> getPostById(Long id);
 

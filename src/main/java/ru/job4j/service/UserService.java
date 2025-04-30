@@ -8,7 +8,9 @@ public interface UserService {
 
     User saveUser(User user);
 
+    boolean updateUser(User user);
+
     Optional<User> getUserById(Long id);
 
-    void deleteUserById(Long id);
+    boolean deleteUserById(Long id);
 }
